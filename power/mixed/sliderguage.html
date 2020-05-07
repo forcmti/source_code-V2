@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+<head>
+    <title>Gauges as Components</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
+</head>
+<style>
+/***************************************
+***************** Vars *****************
+***************************************/
+@basesize: 62.5%;
+@spacing: .25rem;
+@lineheight: 2rem;
+@fontsize: 1.25rem;
+@inputsize: 1rem;
+
+@panel-bg: hsl(240, 15%, 60%);
+@wg-bg: hsl(0, 0%, 20%);
+@widget-bg: hsl(220, 15%, 35%);
+@element-bg: hsl(270, 6%, 13%);
+@accent: hsl(0, 90%, 25%);
+
+// Available Fonts
+@contentfont: Atomic Age;
+@inputfont: Atomic Age;
+@titlefont: Overlock;
+@darkfont: hsl(30, 25%, 10%);
+@lightfont: hsl(30, 25%, 80%);
+
+@ts-light: hsla(0, 0, 100%, .5);
+@ts-dark: hsla(0, 0, 0%, .5);
+
+@lightfont: hsla(0, 0, 100%, .5);
+@darkfont: hsla(0, 0, 0%, .5);
+
+@gauge-border: 1rem;
+
+@gauge-d: 20rem;
+@gauge-width: round(@gauge-d / 5);
+
+@dial-d: @gauge-d - @gauge-width;
+@dial-os: @gauge-width / 2;
+
+@indicator-w: 2rem;
+@indicator-h: 2rem;
+@ind-x: (@dial-d/2) - (@indicator-w/2);
+
+@white: hsla(0, 0%, 100%, 1);
+@black: hsla(0, 0%, 0%, 1);
+@blue: hsl(200, 100%, 40%);
+@green: hsl(120, 100%, 40%);
+@red: hsl(0, 100%, 40%);
+@yellow: hsl(60, 100%, 40%);
+@pink: hsl(330, 100%, 40%);
+
+@grey50: hsl(210, 10%, 50%);
+@grey40: hsl(210, 10%, 40%);
+@grey10: hsl(210, 10%, 10%);
+
+@d9: fade(@black, 10%);
+@d8: fade(@black, 80%);
+@d7: fade(@black, 70%);
+@d6: fade(@black, 60%);
+@d5: fade(@black, 50%);
+@d4: fade(@black, 40%);
+@d3: fade(@black, 30%);
+@d2: fade(@black, 20%);
+@d1: fade(@black, 10%);
+
+@l9: fade(@white, 90%);
+@l8: fade(@white, 80%);
+@l7: fade(@white, 70%);
+@l6: fade(@white, 60%);
+@l5: fade(@white, 50%);
+@l4: fade(@white, 40%);
+@l3: fade(@white, 30%);
+@l2: fade(@white, 20%);
+@l1: fade(@white, 10%);
+
+.indicator(@x, @y, @c, @z: 1) {
+	.ailb;
+	.circle(2rem);
+	.pos(@x, @y);
+	.br(50%);
+	transform-origin: 50% 50%;
+	background: @c;
+	z-index: @z;
+	&:after {
+		content: '';
+		.ailb;
+		.br(100% 100% 0 0);
+		.size(.5rem, 7rem);
+		.pos(.75rem,-6.5rem);
+		background: @c;
+	}
+}
+
+.makegauge() {
+	.gaugewrap {
+		.rilb;
+		.br(50%);
+		box-sizing: padding-box;
+		padding: 2rem;
+		box-shadow:
+			1px 3px 1px 0 @d4,
+			inset 0 3px 1px 1px @l7;
+		background:
+			linear-gradient(30deg,
+					@l5 20%, @d3 50%, @l4 80%),
+			linear-gradient(105deg,
+					@d5 20%, @l3 50%, @d4 80%),
+			linear-gradient(135deg,
+				hsla(210, 15%, 35%, .5) 0%,
+				hsla(240, 15%, 50%, .5) 20%,
+				hsla(220, 15%, 45%, .5) 23%,
+				hsla(230, 30%, 60%, .5) 30%,
+				hsla(230, 40%, 60%, .5) 45%,
+				hsla(240, 25%, 50%, .5) 75%,
+				hsla(230, 15%, 25%, .5) 90%,
+				hsla(210, 25%, 10%, .5) 100%),
+		linear-gradient(to bottom,
+			lighten(@wg-bg, 30),
+			darken(@wg-bg, 30));
+		&:before {
+			content: '';
+			.ailb;
+			.circle(92%);
+			.pos(4%);
+			background:
+				linear-gradient(45deg,
+					@l5 20%, @d3 50%, @l4 80%),
+				linear-gradient(120deg,
+					@d7 20%, @l5 50%, @d5 80%);
+			box-shadow:
+				-1px -2px 1px 0 @l9,
+				inset -2px -4px 1px 0 @l9,
+				inset 2px -4px 0 2px @d7,
+				1px 2px 0 0 @d7;
+		}
+		& .gauge {
+			.rel;
+			.circle(@gauge-d);
+			.lower;
+			overflow: hidden;
+			box-shadow:
+				-1px -2px 1px 2px @d5,
+				1px 2px 1px 2px @l6;
+			background:
+				linear-gradient(330deg, transparent 50%,
+					#0C0 50%),
+				linear-gradient(270deg, transparent 50%,
+					#000 50%),
+				linear-gradient(5deg, transparent 50%, #CC0 50%),
+				linear-gradient(30deg, #000 50%, #C00 50%);
+
+			& .dial {
+				.rilb;
+				.circle(@dial-d);
+				.pos(@dial-os, @dial-os);
+				background: linear-gradient(to bottom,
+					#AAA, #666);
+				& > label {
+					.ailb;
+					.contenttext();
+					.circle(@lineheight);
+					padding: 6px;
+					&:first-of-type {
+						top: 10rem;
+						left: -16px;
+					}
+					&:nth-of-type(2) {
+						top: 2.5rem;
+						left: -12px;
+					}
+					&:nth-of-type(3) {
+						top: -2.25rem;
+						left: 50%;
+						transform: translate(-50%);
+					}
+					&:nth-of-type(4) {
+						top: 2.5rem;
+						right: -6px;
+					}
+					&:nth-of-type(5) {
+						top: 10rem;
+						right: 0px;
+					}
+				}
+				& .indicator {
+					.indicator(@ind-x, 7rem, @accent, 999);
+					background: radial-gradient(circle at center,
+						#EEE 10%, #111 20%, @accent 20%, darken(@accent, 15));
+					& + i {
+						.indicator(@ind-x + .15rem, 7.3rem, @d4, 1);
+						background: transparent;
+						box-shadow: 0 0 2px 0 @d3;
+					}
+				}
+				& .dialbase {
+					.ailb;
+					.size(14rem, 4rem);
+					left: 50%;
+					transform: translate(-50%);
+					background: black;
+					top: 12.05rem;
+					& output {
+						box-shadow: 0 0 1px 1px hsl(190, 40%, 20%, .5);
+						.rilb;
+						width: 40%;
+						background: #000;
+						.pos(30%, 1rem);
+						color: #39C;
+						text-align: center;
+						font-size: 1.8rem;
+						font-family: Audiowide;
+					}
+				}
+			}
+		}
+	}
+}
+
+body {
+	background-color: #000;
+	/* background-image: url(http://www.ge-spark.com/spark/images/GE-Spark_background.jpg); */
+/*	background: radial-gradient(circle,
+			hsl(240, 20%, 35%) 20%, hsl(240, 15%, 10%) 100%);*/
+	background-repeat: no-repeat;
+	background-size: 1280px 960px;
+	background-position: 50% 30%;
+}
+
+
+.panel {
+	.rilb;
+	.makegauge();
+	line-height: @lineheight;
+	left: 50%;
+	top: 50px;
+	padding: 4rem;
+	.br(5rem);
+	transform: translate(-50%);
+	background:
+		radial-gradient(circle at center,
+			#222 15%, transparent 15%),
+		radial-gradient(circle at center,
+			@l7 15%, transparent 15%),
+		radial-gradient(circle at center,
+			#111 15%, transparent 15%),
+		radial-gradient(circle at center,
+			@l7 15%, transparent 15%),
+		radial-gradient(circle farthest-side at center,
+			@l2 0%, transparent 60%),
+		linear-gradient(60deg,
+			hsl(210, 15%, 15%) 0%,
+			hsl(240, 15%, 20%) 20%,
+		  hsl(220, 15%, 25%) 23%,
+		  hsl(230, 30%, 25%) 30%,
+		  hsl(200, 10%, 10%) 45%,
+		  hsl(240, 25%, 15%) 65%,
+			hsl(230, 15%, 20%) 70%,
+		  hsl(210, 25%, 15%) 100%);
+	background-size:
+		25px 25px, 25px 25px,
+		25px 25px, 25px 25px,
+		100% 100%, 100% 100%;
+	background-position:
+		0px 0px,
+		0px -1px,
+		12.5px 12.5px,
+		12.5px 13.5px,
+		1px 1px,
+		1px 2px;
+}
+
+.slidewrap {
+	.rilb;
+	.size(4rem, 20rem);
+	margin-right: 2rem;
+	background:
+		linear-gradient(135deg,
+				hsla(210, 15%, 35%, .5) 0%,
+				hsla(240, 15%, 50%, .5) 20%,
+				hsla(220, 15%, 45%, .5) 23%,
+				hsla(230, 30%, 60%, .5) 30%,
+				hsla(230, 40%, 60%, .5) 45%,
+				hsla(240, 25%, 50%, .5) 75%,
+				hsla(230, 15%, 25%, .5) 90%,
+				hsla(210, 25%, 10%, .5) 100%),
+		linear-gradient(to bottom,
+			darken(@wg-bg, 25),
+			lighten(@wg-bg, 30),
+			darken(@wg-bg, 30)),
+		linear-gradient(to right,
+			darken(@wg-bg, 25),
+			lighten(@wg-bg, 30),
+			darken(@wg-bg, 30));
+	.br(1rem);
+	padding: 2rem 0;
+	text-align: center;
+	box-shadow:
+		0 0 1px 0 #000,
+		1px 2px 1px -1px #111;
+	&:before {
+		content: '';
+		.ailb;
+		.circle(1.5rem);
+		.pos(2px, 2px);
+		background:
+			linear-gradient(to bottom,
+				hsla(0, 0, 100%, .4) 0, transparent 20%);
+		transform: rotate(-45deg);
+		z-index: 999;
+	}
+	& #slider.ui-slider-vertical {
+		.rilb;
+		.size(1rem, 100%);
+		.br(1rem);
+		box-shadow:
+			0 0 0 1px hsla(0, 0%, 0, .5),
+			0 1px 0 1px hsla(0, 0%, 60%, .5),
+			inset 0 2px 1px 1px hsla(0, 0%, 0, .75);
+			background:
+				linear-gradient(to right,
+					transparent 45%,
+					#111 50%,
+					transparent 55%),
+				linear-gradient(to bottom,
+					darken(@widget-bg, 15),
+					@widget-bg,
+					darken(@widget-bg, 20));
+		& .ui-slider-handle {
+			.ailb;
+			.size(4rem, 4rem);
+			.br(50%);
+			.nofo;
+			left: 50%;
+			transform: translate(-50%, 50%);
+			background:
+				linear-gradient(150deg, #AAA, #555);
+			box-shadow:
+				inset 1px 2px 0 1px hsla(0, 0, 80%, .7),
+				inset 0 0 1px 2px #333,
+				-3px 8px 1px -1px hsla(0, 0, 0, .4),
+				6px 16px 3px -2px hsla(0, 0, 0, .25);
+			&:after {
+				content: '';
+				.ailb;
+				.circle(3rem);
+				.pos(.5rem);
+				box-shadow: 0 1px 0 1px #999;
+				border-bottom: 1px solid #DDD;
+				border-top: 1px solid #111;
+				background:
+					repeating-radial-gradient(circle farthest-side at center,
+					transparent 0px, transparent 4px, #222 4px, #111 5px),
+				linear-gradient(to bottom, #222, #AAA);
+			}
+		}
+	}
+}
+
+.ghostme { opacity: 0 };
+.unghostme(@opacity: 1) { opacity: @opacity };
+
+.hideme { visibility: none; }
+.showme { visibility: visible }
+
+.abs { position: absolute; }
+.rel { position: relative; }
+
+.buryme		{ display: none; }
+.blockme	{ display: block; }
+.ilblockme 	{ display: inline-block; }
+.inlineme	{ display: inline; }
+.tableme	{ display: table }
+
+.ailb { .abs; .ilblockme; }
+.rilb { .rel; .ilblockme; }
+.ab   { .abs; .blockme; }
+.rb   { .rel; .blockme; }
+
+.nofo {
+	&:focus {
+		outline: none;
+	}
+}
+
+.pos(@i) {
+	top: @i;
+	left: @i;
+}
+
+.pos(@x, @y) {
+	top: @y;
+	left: @x;
+}
+
+.br(@r: @br) {
+	border-radius: @r;
+}
+
+.br(@ul, @ur, @lr, @ll) {
+	border-radius: @arguments;
+}
+
+.size(@width, @height) {
+	width: @width;
+	height: @height;
+}
+
+.square(@size) {
+	.size(@size, @size);
+}
+
+.circle(@size) {
+	.size(@size, @size);
+	.br(50%);
+}
+
+.fontinator(@weight, @lh, @bg, @style: normal) {
+	.fontcolor(@bg);
+	line-height: @lineheight;
+	font-style: @style;
+	font-weight: @weight;
+	line-height: @lh;
+}
+
+.contenttext(@c: @widget-bg, @weight: 400, @style: normal) {
+	.fontinator(@weight, @lineheight, @c, @style);
+	font-size: @fontsize;
+	font-family: @contentfont;
+}
+
+.headertext(@c: @wg-bg, @weight: 700, @style: normal) {
+	.fontinator(@weight, @header-lh, @c, @style);
+	font-family: @headerfont;
+	font-size: 1rem;
+}
+
+.inputtext(@c: @element-bg, @weight:400, @style: normal) {
+	.fontinator(400, @lineheight, @c, @style);
+	text-indent: 1.25rem;
+	font-size: @inputsize;
+	font-family: @inputfont;
+}
+
+.valuetext(@c: @widget-bg, @weight:400, @style: normal) {
+	.fontinator(400, @lineheight, @c, @style);
+	text-indent: 1.25rem;
+	font-size: @inputsize;
+	font-family: @inputfont;
+}
+
+.fontcolor (@c) when (lightness(@c) >= 50%) {
+  color: @darkfont;
+}
+
+.fontcolor (@c) when (lightness(@c) < 50%) {
+  color: @lightfont;
+}
+
+.grad-lighten(@c, @i: 20) {
+	background: linear-gradient(to bottom, darken(@c, @i), @c);
+}
+
+.grad-darken(@c, @i: 20) {
+	background: linear-gradient(to bottom, @c, darken(@c, @i));
+}
+
+.raise {
+	box-shadow: inset 0 1px 0 0 @ts-light,
+				0 2px 1px -1px @ts-dark,
+				0 4px 1px -2px @ts-dark;
+}
+
+.lower {
+	box-shadow: 0 1px 0 0 darken(@ts-light, 15),
+				inset 0 1px 1px 2px @ts-dark;
+}
+
+.inset(@c, @i) {
+	.lower;
+	.grad-lighten(@c, @i);
+}
+
+.outset(@c, @i) {
+	.raise;
+	.grad-darken(@c, @i);
+}
+</style>
+<body>
+  <!-- create the canvas for displaying the graph -->
+  <!-- line:15 for units, line18,19:min and max value for the scale display,line:25:for displaying color for highlighting different zones -->
+  <!-- line:27 to 44 :we can give seperate colors for ticks,units,numbers,plates,color bar,strokes, needles, plates etc -->
+
+
+<!-- Injecting radial gauge -->
+
+	<div class="panel">
+		<span class="slidewrap">
+			<div id="slider"></div>
+		</span>
+		<div class="gaugewrap">
+			<div class="gauge">
+				<div class="dial">
+					<div class="indicator">
+					</div>
+					<i></i>
+					<div class="dialbase">
+						<output>0%</output>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  <script>
+  var $slider = $('#slider').slider({
+	min: 0,
+	max: 240,
+	value: 120,
+	orientation: 'vertical',
+	slide: function(e,ui) {
+		$('.indicator').css({
+			transform: 'rotate(' + (ui.value - 120) + 'deg)'
+		});
+		$('.indicator + i').css({
+			transform: 'rotate(' + (ui.value - 120) + 'deg)'
+		});
+		$('output').val(Math.floor((ui.value/240).toFixed(2) * 100) + '%');
+	}
+});
+  </script>
+</body>
+</html>
