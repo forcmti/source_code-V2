@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <title>Gauges as Components</title>
+    <!-- <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script> -->
+  <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
+</head>
+<body>
+  <!-- create the canvas for displaying the graph -->
+  <!-- line:15 for units, line18,19:min and max value for the scale display,line:25:for displaying color for highlighting different zones -->
+  <!-- line:27 to 44 :we can give seperate colors for ticks,units,numbers,plates,color bar,strokes, needles, plates etc -->
+
+
+<!-- Injecting radial gauge -->
+<canvas data-type="radial-gauge"
+    data-width="300"
+    data-height="300"
+    data-units="PSI"
+      data-value="22"
+    data-min-value="0"
+    data-max-value="50"
+    data-major-ticks="0,5,10,15,20,25,30,35,40,45,50"
+    data-minor-ticks="2"
+    data-stroke-ticks="true"
+    data-highlights='[
+        {"from": 35, "to": 50, "color": "rgba(200, 50, 50, .75)"}
+    ]'
+    data-color-plate="#fff"
+    data-border-shadow-width="0"
+    data-borders="false"
+    data-needle-type="arrow"
+    data-needle-width="2"
+    data-needle-circle-size="7"
+    data-needle-circle-outer="true"
+    data-needle-circle-inner="false"
+    data-animation-duration="1500"
+    data-animation-rule="linear"
+></canvas>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <title>Gauges as Components</title>
+    <!-- <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script> -->
+<script src="jquery.min.js"></script>
+    <script src="gauge.min.js"></script>
+
+        <script src="perfect-scrollbar.jquery.min.js"></script>
+            <script src="moment.min.js"></script>
+                <script src="popper.min.js"></script>
+                    <script src="uiops.js"></script>
+
+</head>
+<body>
+<!-- Injecting linear gauge -->
+
+
+<!-- Injecting radial gauge -->
+<canvas id="st" height="300" width="600" style="width: 300px; height: 150px;">
+                        </canvas>
+<script>
+var stopts = {
+    angle: -0.2, // The span of the gauge arc
+    lineWidth: 0.2, // The line thickness
+    radiusScale: 1, // Relative radius
+    pointer: {
+        length: 0.6, // // Relative to gauge radius
+        strokeWidth: 0.035, // The thickness
+        color: '#FFFFFF' // Fill color
+    },
+    staticZones: [
+
+        { strokeStyle: "#30B32D", min: 0, max: 20 }, // Green
+        { strokeStyle: "#FFDD00", min: 20, max: 55 }, // Yellow
+        { strokeStyle: "#F03E3E", min: 55, max: 75 } // Red
+    ],
+    staticLabels: {
+        font: "10px sans-serif", // Specifies font
+        labels: [0, 15, 30, 45, 60, 75], // Print labels at these values
+        color: "#FFFFFF", // Optional: Label text color
+        fractionDigits: 0 // Optional: Numerical precision. 0=round off.
+    },
+    limitMax: true, // If false, max value increases automatically if value > maxValue
+    limitMin: true, // If true, the min value of the gauge will be fixed
+    colorStart: '#6FADCF', // Colors
+    colorStop: '#8FC0DA', // just experiment with them
+    strokeColor: '#E0E0E0', // to see which ones work best for you
+    generateGradient: true,
+    highDpiSupport: true, // High resolution support
+
+};
+var sttarget = document.getElementById('st'); // your canvas element
+var stgauge = new Gauge(sttarget).setOptions(stopts); // create sexy gauge!
+stgauge.maxValue = 75; // set max gauge value
+stgauge.setMinValue(0); // Prefer setter over gauge.minValue = 0
+stgauge.animationSpeed = 32; // set animation speed (32 is default value)
+stgauge.set(stval); // set actual value
+
+
+</script>
+
+</body>
+</html>

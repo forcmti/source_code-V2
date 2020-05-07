@@ -1,0 +1,58 @@
+<html>
+<body>
+<div id="chart">
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+
+var options = {
+  chart:
+    {
+      height: 350,// height of the guage
+      type: 'radialBar',
+    },
+  series: [70],//percentage which is displaying inside
+  labels: ['Power'],//label which displays inside the guage
+  colors:['#66FF33'],//Color which is filled in the hollow
+  plotOptions:
+    {
+      radialBar:
+        {
+          hollow:
+            {
+              margin:5,
+              size:"50%",//to increase the size of the hollow
+            },
+          dataLabels:
+           {
+             name: {
+               fontSize: '16px',//label size
+               color: 'black',//label color
+               fontWeight: 'bold',//label fontWeight
+             },
+
+            value:
+              {
+                color:'blue',//fontcolor of the datavalue
+                fontSize:"20px",//fontsize of the data value
+                show:true,
+                formatter:function(val)///for adding KW
+                  {
+                    return val+'KW'
+                  }
+              },
+
+          }
+        }
+    },
+    stroke: {
+      lineCap: 'round'
+    },
+}
+
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+chart.render();
+</script>
+</html>

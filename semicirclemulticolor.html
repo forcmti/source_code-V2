@@ -1,0 +1,120 @@
+<html>
+<body>
+<div id="chart">
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+var options = {
+          series: [76],
+          // colors:['#66FF33'],
+//           colors: [function({ value, seriesIndex, w }) {
+//   if (value < 55) {
+//       return '#7E36AF'
+//   } else {
+//       return '#D9534F'
+//   }
+// }, function({ value, seriesIndex, w }) {
+//   if (value < 111) {
+//       return '#7E36AF'
+//   } else {
+//       return '#D9534F'
+//   }
+// }],
+
+          chart: {
+          type: 'radialBar',
+          height: 350,// height of the guage
+          offsetY: -20,
+          sparkline: {
+            enabled: true
+          }
+        },
+        fill: {
+   type: 'solid',
+   colors: ['#1A73E8', '#B32824'],
+    gradient: {
+        stops: [0, 50, 100],
+         },
+   // gradient: {
+   //   shadeIntensity: 1,
+   //   opacityFrom: 0.7,
+   //   opacityTo: 0.9,
+   //   colorStops: [
+   //     {
+   //       offset: 0,
+   //       color: "#EB656F",
+   //       opacity: 1
+   //     },
+   //     {
+   //       offset: 20,
+   //       color: "#FAD375",
+   //       opacity: 1
+   //     },
+   //     {
+   //       offset: 60,
+   //       color: "#61DBC3",
+   //       opacity: 1
+   //     },
+   //     {
+   //       offset: 100,
+   //       color: "#95DA74",
+   //       opacity: 1
+   //     }
+   //   ]
+   // }
+ },
+        plotOptions: {
+          radialBar: {
+            startAngle: -90,
+            endAngle: 90,
+            track: {
+              background: "#e7e7e7",
+              strokeWidth: '80%',
+              margin: 5, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: 2,
+                left: 0,
+                color: '#999',
+                opacity: 1,
+                blur: 2
+              }
+            },
+            hollow:
+              {
+                margin:5,
+                size:"50%",//to increase the size of the hollow
+              },
+            dataLabels: {
+              name: {
+                show: false
+              },
+              value: {
+                offsetY: -2,
+                fontSize: '22px',
+                formatter:function(val)///for removing the percentage
+                  {
+                    return val+'°C'
+                  }
+              }
+            }
+          }
+        },
+        grid: {
+          padding: {
+            top: -10
+          }
+        },
+
+        labels: ['Average Results'],
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+
+
+
+</script>
+</html>

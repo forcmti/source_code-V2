@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <title>Gauges as Components</title>
+    <!-- <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script> -->
+    <!-- <script src="gauge.min.js"></script> -->
+    <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
+</head>
+<body>
+<!-- create the canvas for displaying the graph -->
+<!-- line:15 for units, line18,19:min and max value for the scale display,line:25:for displaying color for highlighting different zones -->
+<!-- line:27 to 44 :we can give seperate colors for ticks,units,numbers,plates,color bar,strokes, needles, plates etc -->
+
+<canvas data-type="linear-gauge"
+    data-width="400"
+     data-height="150"
+    data-units="°C"
+    data-title="Temperature"
+    data-min-value="-50"
+    data-max-value="50"
+    data-major-ticks="[-50,-40,-30,-20,-10,0,10,20,30,40,50]"
+    data-minor-ticks="5"
+    data-stroke-ticks="true"
+    data-ticks-width="15"
+    data-ticks-width-minor="7.5"
+    data-highlights='[ {"from": -50, "to": 0, "color": "rgba(0,0, 255, .3)"},
+        {"from": 0, "to": 50, "color": "rgba(255, 0, 0, .3)"} ]'
+    data-color-major-ticks="#ffe66a"
+    data-color-minor-ticks="#ffe66a"
+    data-color-title="#eee"
+    data-color-units="#ccc"
+    data-color-numbers="#eee"
+    data-color-plate="#2465c0"
+    data-color-plate-end="#327ac0"
+    data-border-shadow-width="0"
+    data-borders="false"
+    data-border-radius="10"
+    data-needle-type="arrow"
+    data-needle-width="3"
+    data-animation-duration="1500"
+    data-animation-rule="linear"
+    data-color-needle="#222"
+    data-color-needle-end=""
+    data-color-bar-progress="#327ac0"
+    data-color-bar="#f5f5f5"
+    data-bar-stroke="0"
+    data-bar-width="8"
+    data-bar-begin-circle="false"
+></canvas>
+</body>
+</html>

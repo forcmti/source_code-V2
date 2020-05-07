@@ -1,0 +1,94 @@
+<html>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Titan One';
+	color: #333;
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	background-color: #f8f8f8;
+}
+
+.container {
+	width: 100%;
+	max-width: 324px;
+	margin: auto;
+}
+
+.outer {
+	border: 6px solid #999;
+	border-radius: .5em;
+	display: grid;
+	overflow: hidden;
+}
+
+label {
+	padding: .5em .8em .5em .5em;
+	text-align: right;
+	font-weight: bold;
+	font-size: 3em;
+	background: #34657F;
+	color: #7BA7BC;
+	display: block;
+	min-width: 6.5em;
+}
+
+label, .filled {
+	width: 100%;
+	grid-column: 1 / -1;
+	grid-row: 1 / 2;
+	height: auto;
+	overflow: hidden;
+}
+
+.filled {
+	transform-origin: center;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.filled label {
+	background: #ffd100;
+	color: #ff6a13;
+	overflow: hidden;
+	transform-origin: center;
+}
+
+input[type=range] {
+	margin-top: 4em;
+	width: 100%;
+}
+</style>
+<body>
+  <div id="app">
+  	<h1>Adjust the slider to fill the gauge:</h1>
+  	<div class="container">
+  		<div class="outer">
+  			<label for="counter">{{ count }} / 100</label>
+  			<div :style="{width: count + '%'}" class="filled">
+  				<label for="counter">{{ count }} / 100</label>
+  			</div>
+  		</div>
+  		<input v-model="count" type="range" min=0 max=100>
+  	</div>
+  </di>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+<script>
+
+const App = new Vue({
+	el: '#app',
+	data: {
+		count: 15
+	}
+})
+</script>
+</html>

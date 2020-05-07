@@ -1,0 +1,95 @@
+<html>
+<body>
+<div id="chart">
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+var options = {
+          series: [76],
+          // colors:['#66FF33'],
+          colors: [function({ value, seriesIndex, w }) {
+  if (value < 55) {
+      return '#7E36AF'
+  } else {
+      return '#D9534F'
+  }
+}, function({ value, seriesIndex, w }) {
+  if (value < 111) {
+      return '#7E36AF'
+  } else {
+      return '#D9534F'
+  }
+}],
+          chart: {
+          type: 'radialBar',
+          height: 350,// height of the guage
+          offsetY: -20,
+          sparkline: {
+            enabled: true
+          }
+        },
+        plotOptions: {
+          radialBar: {
+            startAngle: -90,
+            endAngle: 90,
+            track: {
+              background: "#e7e7e7",
+              strokeWidth: '80%',
+              margin: 5, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: 2,
+                left: 0,
+                color: '#999',
+                opacity: 1,
+                blur: 2
+              }
+            },
+            hollow:
+              {
+                margin:5,
+                size:"50%",//to increase the size of the hollow
+              },
+            dataLabels: {
+              name: {
+                show: false
+              },
+              value: {
+                offsetY: -2,
+                fontSize: '22px',
+                formatter:function(val)///for removing the percentage
+                  {
+                    return val+'KwH'
+                  }
+              }
+            }
+          }
+        },
+        grid: {
+          padding: {
+            top: -10
+          }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'light',
+            shadeIntensity: 0.4,
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 50, 53, 91]
+          },
+        },
+        labels: ['Average Results'],
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+
+
+
+</script>
+</html>

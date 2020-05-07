@@ -1,0 +1,51 @@
+<html>
+<body>
+<div id="chart">
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+var options = {
+  chart:
+    {
+      height: 350,// height of the guage
+      type: 'radialBar',
+    },
+  series: [70],//percentage which is displaying inside
+  labels: ['Temperature'],//label which displays inside the guage
+  colors:['#E91E63'],
+  plotOptions:
+    {
+      radialBar:
+        {
+          hollow:
+            {
+              margin:5,
+              size:"80%",//to increase or decrease the size of the hollow
+            },
+          dataLabels:
+           {
+             name:
+              {
+                show:false,//for removing the labels
+              },
+            value:
+              {
+                color:'blue',//fontcolor of the datavalue
+                fontSize:"20px",//fontsize of the data value
+                show:true,// for showing the value
+                formatter:function(val)///for removing the percentage
+                  {
+                    return val+'°C'
+                  }
+              }
+          }
+        }
+    }
+}
+
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+chart.render();
+</script>
+</html>
